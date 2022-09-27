@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ps.room.com.MainActivity.Companion.EXTRA_BOOK_AUTHOR
+import ps.room.com.MainActivity.Companion.EXTRA_BOOK_DESCRIPTION
 import ps.room.com.MainActivity.Companion.EXTRA_BOOK_ID
 import ps.room.com.MainActivity.Companion.EXTRA_BOOK_NAME
 
@@ -43,7 +44,6 @@ class BookListAdapter(
         private var pos: Int = 0
         private val tvAuthor: TextView = itemView.findViewById(R.id.tvAuthor)
         private val tvBook: TextView = itemView.findViewById(R.id.tvBook)
-        private val ivRowEdit: ImageView = itemView.findViewById(R.id.ivRowEdit)
         private val ivRowDelete: ImageView = itemView.findViewById(R.id.ivRowDelete)
 
         fun setData(author: String, book: String, position: Int) {
@@ -53,11 +53,12 @@ class BookListAdapter(
         }
 
         fun setListeners() {
-            ivRowEdit.setOnClickListener {
+            itemView.setOnClickListener {
                 val intent = Intent(context, EditBookActivity::class.java)
                 intent.putExtra(EXTRA_BOOK_ID, bookList[pos].id)
                 intent.putExtra(EXTRA_BOOK_AUTHOR, bookList[pos].author)
                 intent.putExtra(EXTRA_BOOK_NAME, bookList[pos].book)
+                intent.putExtra(EXTRA_BOOK_DESCRIPTION, bookList[pos].description)
                 (context as Activity).startActivityForResult(intent, MainActivity.UPDATE_BOOK_ACTIVITY_REQUEST_CODE)
             }
 

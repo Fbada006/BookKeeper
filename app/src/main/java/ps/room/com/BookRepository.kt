@@ -2,7 +2,6 @@ package ps.room.com
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.CoroutineScope
 
 class BookRepository(application: Application) {
 

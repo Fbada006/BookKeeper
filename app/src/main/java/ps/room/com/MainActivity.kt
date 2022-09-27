@@ -63,8 +63,9 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
             val id = UUID.randomUUID().toString()
             val authorName = data?.getStringExtra(NewBookActivity.NEW_AUTHOR)
             val bookName = data?.getStringExtra(NewBookActivity.NEW_BOOK)
+            val description = data?.getStringExtra(NewBookActivity.NEW_DESCRIPTION)
 
-            val book = Book(id, authorName, bookName)
+            val book = Book(id, authorName, bookName, description!!)
 
             bookViewModel.insert(book)
 
@@ -75,8 +76,9 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
             val id = data?.getStringExtra(EditBookActivity.ID)
             val authorName = data?.getStringExtra(EditBookActivity.UPDATED_AUTHOR)
             val bookName = data?.getStringExtra(EditBookActivity.UPDATED_BOOK)
+            val description = data?.getStringExtra(EditBookActivity.UPDATED_DESCRIPTION)
 
-            val book = Book(id!!, authorName, bookName)
+            val book = Book(id!!, authorName, bookName, description!!)
 
             bookViewModel.update(book)
 
@@ -111,6 +113,7 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
         const val EXTRA_BOOK_ID = "id"
         const val EXTRA_BOOK_NAME = "book"
         const val EXTRA_BOOK_AUTHOR = "author"
+        const val EXTRA_BOOK_DESCRIPTION = "description"
     }
 
     override fun onDeleteClickListener(myBook: Book) {
