@@ -13,7 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
 
 @Suppress("DEPRECATION")
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener {
 
     private lateinit var bookViewModel: BookViewModel
     private lateinit var toolbar: Toolbar
@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
 
-        val bookListAdapter = BookListAdapter(this)
+        bookViewModel = ViewModelProvider(this)[BookViewModel::class.java]
+
+        val bookListAdapter = BookListAdapter(this, this)
+
         recyclerview.adapter = bookListAdapter
         recyclerview.layoutManager = LinearLayoutManager(this)
 
@@ -38,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, NewBookActivity::class.java)
             startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
         }
-
-        bookViewModel = ViewModelProvider(this)[BookViewModel::class.java]
 
         bookViewModel.allBooks.observe(this) { books ->
             books?.let {
@@ -64,6 +65,17 @@ class MainActivity : AppCompatActivity() {
 
             Toast.makeText(applicationContext, R.string.saved, Toast.LENGTH_LONG).show()
 
+        } else if (requestCode == UPDATE_BOOK_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+            val id = data?.getStringExtra(EditBookActivity.ID)
+            val authorName = data?.getStringExtra(EditBookActivity.UPDATED_AUTHOR)
+            val bookName = data?.getStringExtra(EditBookActivity.UPDATED_BOOK)
+
+            val book = Book(id!!, authorName, bookName)
+
+            bookViewModel.update(book)
+
+            Toast.makeText(applicationContext, R.string.updated, Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(
                 applicationContext, R.string.not_saved, Toast.LENGTH_LONG
@@ -73,5 +85,14 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val NEW_NOTE_ACTIVITY_REQUEST_CODE = 1
+        const val UPDATE_BOOK_ACTIVITY_REQUEST_CODE = 2
+        const val EXTRA_BOOK_ID = "id"
+        const val EXTRA_BOOK_NAME = "book"
+        const val EXTRA_BOOK_AUTHOR = "author"
+    }
+
+    override fun onDeleteClickListener(myBook: Book) {
+        bookViewModel.delete(myBook)
+        Toast.makeText(applicationContext, R.string.deleted, Toast.LENGTH_LONG).show()
     }
 }

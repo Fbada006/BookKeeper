@@ -22,4 +22,16 @@ class BookViewModel(application: Application) : AndroidViewModel(application) {
             bookDao.insert(book)
         }
     }
+
+    fun update(book: Book) {
+        viewModelScope.launch {
+            bookDao.update(book)
+        }
+    }
+
+    fun delete(book: Book) {
+        viewModelScope.launch {
+            bookDao.delete(book)
+        }
+    }
 }
