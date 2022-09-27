@@ -3,13 +3,13 @@ package ps.room.com
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
-class NewBookActivity : AppCompatActivity() {
+class EditBookActivity : AppCompatActivity() {
 
+    var id: String? = null
     private lateinit var bSave: Button
     private lateinit var etAuthorName: EditText
     private lateinit var etBookName: EditText
@@ -24,20 +24,27 @@ class NewBookActivity : AppCompatActivity() {
         etBookName = findViewById(R.id.etBookName)
         bCancel = findViewById(R.id.bCancel)
 
+        val bundle: Bundle? = intent.extras
+
+        bundle?.let {
+            id = bundle.getString(MainActivity.EXTRA_BOOK_ID)
+            val book = bundle.getString(MainActivity.EXTRA_BOOK_NAME)
+            val author = bundle.getString(MainActivity.EXTRA_BOOK_AUTHOR)
+
+            etAuthorName.setText(author)
+            etBookName.setText(book)
+        }
+
         bSave.setOnClickListener {
+            val updatedAuthor = etAuthorName.text.toString()
+            val updatedBook = etBookName.text.toString()
 
             val resultIntent = Intent()
+            resultIntent.putExtra(ID, id)
+            resultIntent.putExtra(UPDATED_AUTHOR, updatedAuthor)
+            resultIntent.putExtra(UPDATED_BOOK, updatedBook)
+            setResult(Activity.RESULT_OK, resultIntent)
 
-            if (TextUtils.isEmpty(etAuthorName.text) || TextUtils.isEmpty(etBookName.text)) {
-                setResult(Activity.RESULT_CANCELED, resultIntent)
-            } else {
-                val author = etAuthorName.text.toString()
-                val book = etBookName.text.toString()
-
-                resultIntent.putExtra(NEW_AUTHOR, author)
-                resultIntent.putExtra(NEW_BOOK, book)
-                setResult(Activity.RESULT_OK, resultIntent)
-            }
             finish()
         }
 
@@ -47,7 +54,8 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val NEW_AUTHOR = "new_author"
-        const val NEW_BOOK = "new_book"
+        const val ID = "book_id"
+        const val UPDATED_AUTHOR = "author_name"
+        const val UPDATED_BOOK = "book_name"
     }
 }
