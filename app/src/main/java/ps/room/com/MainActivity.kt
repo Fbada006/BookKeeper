@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.Calendar
 import java.util.UUID
 
 @Suppress("DEPRECATION")
@@ -63,8 +64,10 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
             val id = UUID.randomUUID().toString()
             val authorName = data?.getStringExtra(NewBookActivity.NEW_AUTHOR)
             val bookName = data?.getStringExtra(NewBookActivity.NEW_BOOK)
+            val description = data?.getStringExtra(NewBookActivity.NEW_DESCRIPTION)
+            val currentTime = Calendar.getInstance().time
 
-            val book = Book(id, authorName, bookName)
+            val book = Book(id, authorName, bookName, description!!, currentTime)
 
             bookViewModel.insert(book)
 
@@ -75,8 +78,10 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
             val id = data?.getStringExtra(EditBookActivity.ID)
             val authorName = data?.getStringExtra(EditBookActivity.UPDATED_AUTHOR)
             val bookName = data?.getStringExtra(EditBookActivity.UPDATED_BOOK)
+            val description = data?.getStringExtra(EditBookActivity.UPDATED_DESCRIPTION)
+            val currentTime = Calendar.getInstance().time
 
-            val book = Book(id!!, authorName, bookName)
+            val book = Book(id!!, authorName, bookName, description!!, currentTime)
 
             bookViewModel.update(book)
 
@@ -111,6 +116,8 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
         const val EXTRA_BOOK_ID = "id"
         const val EXTRA_BOOK_NAME = "book"
         const val EXTRA_BOOK_AUTHOR = "author"
+        const val EXTRA_BOOK_DESCRIPTION = "description"
+        const val EXTRA_LAST_UPDATED = "lastUpdated"
     }
 
     override fun onDeleteClickListener(myBook: Book) {
