@@ -8,26 +8,21 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val bookDao: BookDao
-
-    init {
-        val bookDB = BookRoomDatabase.getDatabase(application)
-        bookDao = bookDB!!.bookDao()
-    }
+    private val bookRepository = BookRepository(application)
 
     fun getBooksByBookOrAuthor(searchQuery: String): LiveData<List<Book>>? {
-        return bookDao.getBooksByBookOrAuthor(searchQuery)
+        return bookRepository.getBooksByBookOrAuthor(searchQuery)
     }
 
     fun update(book: Book) {
         viewModelScope.launch {
-            bookDao.update(book)
+            bookRepository.update(book)
         }
     }
 
     fun delete(book: Book) {
         viewModelScope.launch {
-            bookDao.delete(book)
+            bookRepository.delete(book)
         }
     }
 }
