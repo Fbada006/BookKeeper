@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.UUID
 
@@ -16,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bookViewModel: BookViewModel
     private lateinit var toolbar: Toolbar
     private lateinit var fab: FloatingActionButton
+    private lateinit var recyclerview: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         fab = findViewById(R.id.add_book_fab)
+        recyclerview = findViewById(R.id.recyclerview)
 
         setSupportActionBar(toolbar)
+
+        val bookListAdapter = BookListAdapter(this)
+        recyclerview.adapter = bookListAdapter
+        recyclerview.layoutManager = LinearLayoutManager(this)
 
         fab.setOnClickListener {
             val intent = Intent(this, NewBookActivity::class.java)
@@ -32,6 +40,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         bookViewModel = ViewModelProvider(this)[BookViewModel::class.java]
+
+        bookViewModel.allBooks.observe(this) { books ->
+            books?.let {
+                bookListAdapter.setBooks(books)
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")
