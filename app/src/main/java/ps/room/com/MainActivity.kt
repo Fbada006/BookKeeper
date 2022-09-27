@@ -1,8 +1,13 @@
 package ps.room.com
 
 import android.app.Activity
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -81,6 +86,23 @@ class MainActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener 
                 applicationContext, R.string.not_saved, Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+
+        // Setting the SearchResultActivity to show the result
+        val componentName = ComponentName(this, SearchResultActivity::class.java)
+        val searchableInfo = searchManager.getSearchableInfo(componentName)
+        searchView.setSearchableInfo(searchableInfo)
+
+        return true
     }
 
     companion object {

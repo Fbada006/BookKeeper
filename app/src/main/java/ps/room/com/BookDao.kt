@@ -13,6 +13,9 @@ interface BookDao {
     @Insert
     suspend fun insert(book: Book)
 
+    @Query("SELECT * FROM books WHERE book LIKE :searchString OR author LIKE :searchString")
+    fun getBooksByBookOrAuthor(searchString: String): LiveData<List<Book>>
+
     @get:Query("SELECT * FROM books")
     val allBooks: LiveData<List<Book>>
 
