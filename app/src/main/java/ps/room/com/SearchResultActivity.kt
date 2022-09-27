@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.Calendar
 
 @Suppress("DEPRECATION")
 class SearchResultActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickListener {
@@ -66,8 +67,9 @@ class SearchResultActivity : AppCompatActivity(), BookListAdapter.OnDeleteClickL
             val authorName = data.getStringExtra(EditBookActivity.UPDATED_AUTHOR)
             val bookName = data.getStringExtra(EditBookActivity.UPDATED_BOOK)
             val description = data.getStringExtra(EditBookActivity.UPDATED_DESCRIPTION)
+            val currentTime = Calendar.getInstance().time
 
-            val book = Book(bookId!!, authorName, bookName, description!!)
+            val book = Book(bookId!!, authorName, bookName, description!!, currentTime)
             searchViewModel.update(book)
 
             Toast.makeText(applicationContext, R.string.updated, Toast.LENGTH_LONG).show()

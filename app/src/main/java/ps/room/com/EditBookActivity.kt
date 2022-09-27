@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class EditBookActivity : AppCompatActivity() {
@@ -15,6 +16,7 @@ class EditBookActivity : AppCompatActivity() {
     private lateinit var etBookName: EditText
     private lateinit var bCancel: Button
     private lateinit var etDescription: EditText
+    private lateinit var txvLastUpdated: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,7 @@ class EditBookActivity : AppCompatActivity() {
         etBookName = findViewById(R.id.etBookName)
         bCancel = findViewById(R.id.bCancel)
         etDescription = findViewById(R.id.etDescription)
+        txvLastUpdated = findViewById(R.id.txvLastUpdated)
 
         val bundle: Bundle? = intent.extras
 
@@ -33,10 +36,12 @@ class EditBookActivity : AppCompatActivity() {
             val book = bundle.getString(MainActivity.EXTRA_BOOK_NAME)
             val author = bundle.getString(MainActivity.EXTRA_BOOK_AUTHOR)
             val description = bundle.getString(MainActivity.EXTRA_BOOK_DESCRIPTION)
+            val lastUpdated = bundle.getString(MainActivity.EXTRA_LAST_UPDATED)
 
             etAuthorName.setText(author)
             etBookName.setText(book)
             etDescription.setText(description)
+            txvLastUpdated.text = lastUpdated
         }
 
         bSave.setOnClickListener {

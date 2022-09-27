@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class NewBookActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class NewBookActivity : AppCompatActivity() {
     private lateinit var etBookName: EditText
     private lateinit var etBookDescription: EditText
     private lateinit var bCancel: Button
+    private lateinit var txvLastUpdated: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,9 @@ class NewBookActivity : AppCompatActivity() {
         etBookName = findViewById(R.id.etBookName)
         bCancel = findViewById(R.id.bCancel)
         etBookDescription = findViewById(R.id.etDescription)
+        txvLastUpdated = findViewById(R.id.txvLastUpdated)
+
+        txvLastUpdated.visibility = View.INVISIBLE
 
         bSave.setOnClickListener {
 

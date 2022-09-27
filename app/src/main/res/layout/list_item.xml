@@ -43,14 +43,14 @@
                 android:textColor="#616161"
                 android:textSize="18sp"/>
 
-<!--            <TextView-->
-<!--                android:id="@+id/tvLastUpdated"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="7dp"-->
-<!--                android:text="@string/last_updated"-->
-<!--                android:textColor="#616161"-->
-<!--                android:textSize="18sp" />-->
+            <TextView
+                android:id="@+id/tvLastUpdated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:text="@string/last_updated"
+                android:textColor="#616161"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
